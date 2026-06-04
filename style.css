@@ -1,0 +1,220 @@
+/* ── 기본 변수 ── */
+:root {
+  --lime:    #C7F464;
+  --blue:    #7FDBFF;
+  --bg:      #F7FFF7;
+  --text:    #2D3436;
+  --orange:  #FFB347;
+  --gray:    #636e72;
+  --white:   #ffffff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-tap-highlight-color: transparent; }
+
+body { background: #eef5ee; color: var(--text);
+       display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+
+#app { background: var(--bg); width: 100%; max-width: 450px; height: 100dvh;
+       min-height: 600px; position: relative; overflow: hidden;
+       display: flex; flex-direction: column; box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
+
+.hidden { display: none !important; }
+
+/* ── 온보딩 ── */
+.screen { flex: 1; display: flex; flex-direction: column; overflow-y: auto;
+          padding: 20px; padding-bottom: 90px; }
+
+#onboarding-screen { justify-content: center; align-items: center; text-align: center;
+                     background: linear-gradient(135deg, var(--bg) 0%, #e2fcd2 100%); }
+
+.welcome-header h1 { font-size: 3rem; font-weight: 900; margin-bottom: 14px; }
+.welcome-header p  { color: var(--gray); line-height: 1.7; margin-bottom: 36px; }
+
+.permission-box { background: var(--white); padding: 20px; border-radius: 18px;
+                  width: 100%; margin-bottom: 36px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+.permission-box h3 { margin-bottom: 14px; font-size: 0.85rem; color: var(--gray);
+                     text-transform: uppercase; letter-spacing: 0.05em; }
+
+.perm-item { display: flex; justify-content: space-between; align-items: center;
+             padding: 11px 0; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+.perm-item:last-child { border-bottom: none; }
+
+/* ── 헤더 ── */
+.main-header { display: flex; justify-content: space-between; align-items: center;
+               padding: 14px 20px 10px; flex-shrink: 0; }
+.main-header h2 { font-size: 1.25rem; font-weight: 900; letter-spacing: -0.02em; }
+.level-badge { background: var(--text); color: var(--lime); padding: 5px 12px;
+               border-radius: 20px; font-weight: 700; font-size: 0.8rem; }
+
+/* ── 홈 탭 ── */
+.status-card { background: var(--white); padding: 18px; border-radius: 20px;
+               margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); text-align: center; }
+#status-message { font-weight: 700; font-size: 1.1rem; margin-bottom: 12px; }
+
+.gauge-container { background: #e8f0e8; height: 10px; border-radius: 5px; overflow: hidden; }
+.gauge-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--lime));
+              transition: width 0.5s ease; border-radius: 5px; }
+
+/* ── 순환이 캐릭터 ── */
+.character-container { display: flex; flex-direction: column; align-items: center;
+                       height: 170px; margin-bottom: 20px; justify-content: center; }
+.character { width: 90px; height: 100px;
+             border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
+             position: relative; display: flex; justify-content: center; align-items: center;
+             transition: all 0.5s ease; }
+
+.character-heart { width: 20px; height: 20px; background: #ff4757;
+                   position: relative; transform: rotate(-45deg); transition: all 0.5s; }
+.character-heart::before,
+.character-heart::after { content: ""; background: #ff4757; border-radius: 50%;
+                           position: absolute; width: 20px; height: 20px; }
+.character-heart::before { top: -10px; left: 0; }
+.character-heart::after  { top: 0; left: 10px; }
+
+.status-good { background: var(--lime); box-shadow: 0 0 28px rgba(199,244,100,0.7);
+               animation: bounce 1.2s ease-in-out infinite alternate; }
+.status-good .character-heart { animation: heartbeat 0.6s ease-in-out infinite alternate; }
+
+.status-warning { background: var(--orange); box-shadow: 0 0 18px rgba(255,179,71,0.45);
+                  animation: bounce 2.5s ease-in-out infinite alternate; }
+.status-warning .character-heart { animation: heartbeat 1.5s ease-in-out infinite alternate; }
+
+.status-bad { background: #bdc3c7; transform: scaleY(0.85) translateY(15px); }
+.status-bad .character-heart,
+.status-bad .character-heart::before,
+.status-bad .character-heart::after { background: #7f8c8d; }
+
+.shadow { width: 70px; height: 8px; background: rgba(0,0,0,0.06);
+          border-radius: 50%; margin-top: 10px; }
+
+/* ── 대시보드 ── */
+.dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.dash-card { background: var(--white); padding: 14px; border-radius: 16px;
+             display: flex; flex-direction: column; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.dash-card .label { font-size: 0.8rem; color: var(--gray); margin-bottom: 4px; }
+.dash-card .value { font-size: 1.5rem; font-weight: 700; }
+
+.streak-banner { background: var(--blue); padding: 12px; border-radius: 12px;
+                 text-align: center; font-weight: 700; margin-bottom: 20px; font-size: 0.95rem; }
+
+/* ── 미션 탭 ── */
+.tab-subtitle { font-size: 0.82rem; color: var(--gray); margin: 6px 0 14px; line-height: 1.5; }
+.mission-list { display: flex; flex-direction: column; gap: 8px; }
+
+.mission-item { background: var(--white); border-radius: 16px; padding: 13px 15px;
+                display: flex; align-items: center; justify-content: space-between;
+                cursor: pointer; border: 2px solid transparent; transition: all 0.2s; }
+.mission-item:hover { border-color: var(--lime); transform: translateY(-1px); }
+
+.mission-item-left { flex: 1; margin-right: 10px; }
+.mission-item-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+.mission-badge { font-size: 0.68rem; font-weight: 700; padding: 2px 7px; border-radius: 8px; }
+.mission-badge.EASY   { background: var(--lime); color: var(--text); }
+.mission-badge.NORMAL { background: var(--blue); color: var(--text); }
+.mission-badge.HARD   { background: var(--orange); color: var(--text); }
+
+.mission-stars { font-size: 0.75rem; }
+.star-on  { color: #FFB347; }
+.star-off { color: #ddd; }
+
+.mission-item-right { text-align: right; flex-shrink: 0; }
+.mission-time { font-size: 0.75rem; color: var(--gray); }
+.mission-exp  { font-size: 0.75rem; font-weight: 700; color: #2d7a2d; margin-top: 2px; }
+
+/* ── 통계 탭 ── */
+.stats-summary { background: var(--white); padding: 18px; border-radius: 16px;
+                 margin: 12px 0 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.stat-row { display: flex; justify-content: space-between; padding: 10px 0;
+            border-bottom: 1px solid #f1f1f1; font-size: 0.9rem; }
+.stat-row:last-child { border-bottom: none; }
+
+.achievements-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.achieve-card { background: var(--white); padding: 14px 10px; border-radius: 14px;
+                text-align: center; opacity: 0.45; border: 1px dashed #ccc; transition: all 0.3s; }
+.achieve-card.unlocked { opacity: 1; border: 2px solid var(--lime); background: #fdfffa; }
+.achieve-icon  { font-size: 1.8rem; margin-bottom: 5px; }
+.achieve-title { font-size: 0.82rem; font-weight: 700; margin-bottom: 3px; }
+.achieve-desc  { font-size: 0.72rem; color: var(--gray); }
+.achieve-tag   { display: inline-block; margin-top: 6px; font-size: 0.7rem; font-weight: 700;
+                 background: var(--lime); color: var(--text); padding: 2px 8px; border-radius: 8px; }
+
+/* ── 설정 탭 ── */
+.setting-item { background: var(--white); padding: 14px; border-radius: 14px;
+                margin-top: 12px; display: flex; flex-direction: column; gap: 8px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.setting-item label { font-size: 0.88rem; font-weight: 600; }
+.setting-item select { padding: 9px 10px; border-radius: 10px; border: 1px solid #ddd; outline: none; font-size: 0.9rem; }
+
+/* ── 버튼 ── */
+.btn-main { background: var(--text); color: var(--lime); border: none; padding: 15px 20px;
+            border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer;
+            width: 100%; transition: background 0.2s; }
+.btn-main:hover { background: #000; }
+
+.btn-sub { background: #e0e0e0; border: none; padding: 8px 16px; border-radius: 8px;
+           cursor: pointer; font-weight: 600; font-size: 0.88rem; }
+.btn-sub:hover { background: #ccc; }
+
+.btn-danger { background: #ff4757; color: #fff; border: none; padding: 12px;
+              border-radius: 10px; cursor: pointer; font-weight: 700; width: 100%;
+              font-size: 0.9rem; transition: opacity 0.2s; }
+.btn-danger:hover { opacity: 0.85; }
+
+/* ── 하단 네비게이션 ── */
+.bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; height: 68px;
+              background: var(--white); display: flex; border-top: 1px solid #eee; z-index: 10; }
+.nav-item { flex: 1; border: none; background: none; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; font-size: 0.8rem;
+            color: var(--gray); cursor: pointer; gap: 2px; }
+.nav-item.active { color: var(--text); font-weight: 700; background: rgba(199,244,100,0.12); }
+
+/* ── 미션 모달 ── */
+.modal { position: absolute; inset: 0; background: rgba(0,0,0,0.6);
+         display: flex; justify-content: center; align-items: center; padding: 20px; z-index: 100; }
+.modal-content { background: var(--white); border-radius: 24px; padding: 30px 26px;
+                 width: 100%; text-align: center; box-shadow: 0 10px 28px rgba(0,0,0,0.2); }
+
+.badge { display: inline-block; padding: 4px 12px; border-radius: 12px;
+         font-size: 0.75rem; font-weight: 700; margin-bottom: 6px; }
+.badge.EASY   { background: var(--lime); color: var(--text); }
+.badge.NORMAL { background: var(--blue); color: var(--text); }
+.badge.HARD   { background: var(--orange); color: var(--text); }
+
+.star-rating { font-size: 1.1rem; margin-bottom: 10px; }
+
+#modal-mission-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 10px; }
+#modal-mission-desc  { color: var(--gray); font-size: 0.92rem; line-height: 1.6; margin-bottom: 18px; }
+
+.timer-display { font-size: 2.6rem; font-family: monospace; font-weight: 700;
+                 color: var(--blue); margin-bottom: 16px; transition: color 0.3s; }
+.timer-display.urgent { color: #ff4757; }
+
+.exp-preview { font-size: 0.88rem; font-weight: 700; background: #f7fff7; color: #2d7a2d;
+               padding: 8px; border-radius: 10px; margin-bottom: 18px; }
+
+.modal-buttons { display: flex; flex-direction: column; gap: 10px; }
+
+/* ── 토스트 ── */
+#toast-container { position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+                   display: flex; flex-direction: column; gap: 8px; z-index: 200;
+                   width: calc(100% - 40px); max-width: 400px; pointer-events: none; }
+.toast { background: #C7F464; color: #1a1a1a; padding: 12px 16px; border-radius: 12px;
+         font-weight: 700; font-size: 0.88rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+         animation: toastIn 0.3s ease; text-align: center; }
+.toast.info { background: var(--text); color: var(--lime); }
+
+/* ── 애니메이션 ── */
+@keyframes bounce {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
+}
+@keyframes heartbeat {
+  0%   { transform: rotate(-45deg) scale(0.9); }
+  100% { transform: rotate(-45deg) scale(1.1); }
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

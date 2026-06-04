@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>순환중 - 움직임 미션</title>
+    <meta name="description" content="오래 앉아 있는 시간을 줄이고 가벼운 움직임 미션을 수행하는 정적 웹앱" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+      <section id="onboarding-screen" class="screen">
+        <div class="welcome-header">
+          <h1>순환중</h1>
+          <p>오래 앉아 있는 몸을 깨우고<br />가벼운 미션으로 혈액순환을 회복해요.</p>
+        </div>
+
+        <div class="permission-box">
+          <h3>선택 권한</h3>
+          <div class="perm-item">
+            <span>알림 권한</span>
+            <button id="btn-perm-noti" class="btn-sub" type="button">허용</button>
+          </div>
+          <div class="perm-item">
+            <span>움직임 감지</span>
+            <button id="btn-perm-sensor" class="btn-sub" type="button">확인</button>
+          </div>
+        </div>
+
+        <button id="btn-start" class="btn-main" type="button">시작하기</button>
+      </section>
+
+      <section id="main-interface" class="hidden" aria-label="순환중 메인 화면">
+        <header class="main-header">
+          <h2>순환중</h2>
+          <div class="level-badge">Lv.<span id="user-level">1</span> <span id="user-level-name">새싹</span></div>
+        </header>
+
+        <main id="tab-home" class="screen tab-content">
+          <div class="status-card">
+            <p id="status-message">순환 상태 좋아요!</p>
+            <div class="gauge-container" aria-label="순환 게이지">
+              <div id="circulation-gauge" class="gauge-fill" style="width: 100%"></div>
+            </div>
+          </div>
+
+          <div class="character-container">
+            <div id="character-soonhwan" class="character status-good" aria-label="순환이 캐릭터">
+              <div class="character-heart"></div>
+            </div>
+            <div class="shadow"></div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="dash-card">
+              <span class="label">앉은 시간</span>
+              <strong id="dash-sit-time" class="value">0분</strong>
+            </div>
+            <div class="dash-card">
+              <span class="label">움직임</span>
+              <strong id="dash-move-count" class="value">0회</strong>
+            </div>
+          </div>
+
+          <div class="streak-banner">🔥 연속 순환 <span id="dash-streak">0</span>일</div>
+          <button id="btn-cta-mission" class="btn-main" type="button">지금 미션 하나 받기</button>
+        </main>
+
+        <main id="tab-missions" class="screen tab-content hidden">
+          <h2>움직임 미션</h2>
+          <p class="tab-subtitle">쉬운 미션부터 차근차근 수행해 보세요. 별점이 높을수록 자주 추천됩니다.</p>
+          <div id="mission-list-container" class="mission-list"></div>
+        </main>
+
+        <main id="tab-stats" class="screen tab-content hidden">
+          <h2>나의 통계</h2>
+          <div class="stats-summary">
+            <div class="stat-row"><span>누적 경험치</span><strong id="stat-exp">0 XP</strong></div>
+            <div class="stat-row"><span>예상 소모 칼로리</span><strong id="stat-calories">0 kcal</strong></div>
+            <div class="stat-row"><span>완료 미션</span><strong id="stat-total-missions">0개</strong></div>
+          </div>
+
+          <h3>업적</h3>
+          <div id="achievements-list" class="achievements-grid"></div>
+        </main>
+
+        <main id="tab-settings" class="screen tab-content hidden">
+          <h2>설정</h2>
+          <div class="setting-item">
+            <label for="setting-time">알림 간격</label>
+            <select id="setting-time">
+              <option value="10">10초마다</option>
+              <option value="30">30초마다</option>
+              <option value="60">1분마다</option>
+              <option value="300">5분마다</option>
+              <option value="600">10분마다</option>
+            </select>
+          </div>
+          <div class="setting-item">
+            <label for="setting-sensitivity">움직임 감지 민감도</label>
+            <select id="setting-sensitivity">
+              <option value="low">낮음</option>
+              <option value="normal">보통</option>
+              <option value="high">높음</option>
+            </select>
+          </div>
+          <div class="setting-item">
+            <label>데이터 관리</label>
+            <button id="btn-reset-data" class="btn-danger" type="button">모든 데이터 초기화</button>
+          </div>
+        </main>
+
+        <nav class="bottom-nav" aria-label="하단 메뉴">
+          <button class="nav-item active" type="button" data-tab="home">🏠<span>홈</span></button>
+          <button class="nav-item" type="button" data-tab="missions">⭐<span>미션</span></button>
+          <button class="nav-item" type="button" data-tab="stats">📊<span>통계</span></button>
+          <button class="nav-item" type="button" data-tab="settings">⚙️<span>설정</span></button>
+        </nav>
+
+        <div id="mission-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-mission-title">
+          <div class="modal-content">
+            <span id="modal-mission-badge" class="badge EASY">EASY</span>
+            <div id="modal-star-rating" class="star-rating">★★★★★</div>
+            <h2 id="modal-mission-title">미션 제목</h2>
+            <p id="modal-mission-desc">미션 설명</p>
+            <div id="mission-timer" class="timer-display hidden">00:00</div>
+            <div id="modal-exp-preview" class="exp-preview">완료 시 +0 EXP 획득</div>
+            <div class="modal-buttons">
+              <button id="btn-mission-complete" class="btn-main" type="button">미션 완료</button>
+              <button id="btn-mission-close" class="btn-sub" type="button">닫기</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
